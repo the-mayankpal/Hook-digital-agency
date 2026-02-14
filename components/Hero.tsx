@@ -1,9 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import AIStrategy from './AIStrategy';
 
 const Hero: React.FC = () => {
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+
   return (
     <section id="home" className="max-w-7xl mx-auto px-6 pt-20 pb-32">
+      <AIStrategy isOpen={isAIModalOpen} onClose={() => setIsAIModalOpen(false)} />
+      
       <div className="grid lg:grid-cols-2 gap-16 items-center">
         <div className="scroll-reveal reveal-hidden">
           <div className="flex flex-wrap gap-4 mb-8">
@@ -34,16 +39,29 @@ const Hero: React.FC = () => {
               </svg>
             </a>
           </div>
+          
           <h1 className="text-6xl lg:text-8xl font-bold tracking-tight mb-8">
             Short form <br /> done <span className="serif-italic font-normal text-gray-400 dark:text-gray-500">right</span>
           </h1>
+          
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-md leading-relaxed">
             We combine content, management, and paid media to help brands grow and convert on the social platforms that matter most to you.
           </p>
-          <a href="#contact" className="inline-block bg-primary dark:bg-white dark:text-black text-white px-10 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-transform">
-            Get in touch
-          </a>
+          
+          <div className="flex flex-wrap gap-4">
+            <a href="#contact" className="inline-block bg-primary dark:bg-white dark:text-black text-white px-10 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-transform shadow-lg">
+              Get in touch
+            </a>
+            <button 
+              onClick={() => setIsAIModalOpen(true)}
+              className="inline-flex items-center gap-2 bg-white dark:bg-zinc-800 text-black dark:text-white border border-gray-200 dark:border-zinc-700 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-50 dark:hover:bg-zinc-700 transition-all shadow-sm group"
+            >
+              <span className="material-icons-outlined text-purple-500 group-hover:rotate-12 transition-transform">auto_awesome</span>
+              Free AI Strategy
+            </button>
+          </div>
         </div>
+        
         <div className="relative scroll-reveal reveal-hidden">
           <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[9/16] max-w-sm mx-auto group bg-zinc-200 dark:bg-zinc-800">
             <video 
