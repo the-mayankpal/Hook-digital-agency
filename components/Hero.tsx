@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import AIStrategy from './AIStrategy';
+import AIStrategy from './AIStrategy.tsx';
 
 const Hero: React.FC = () => {
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);

@@ -1,16 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Brands from './components/Brands';
-import Services from './components/Services';
-import Mission from './components/Mission';
-import CaseStudies from './components/CaseStudies';
-import Comparison from './components/Comparison';
-import Team from './components/Team';
-import FAQ from './components/FAQ';
-import CTA from './components/CTA';
-import Footer from './components/Footer';
+import Navbar from './components/Navbar.tsx';
+import Hero from './components/Hero.tsx';
+import Brands from './components/Brands.tsx';
+import Services from './components/Services.tsx';
+import Mission from './components/Mission.tsx';
+import CaseStudies from './components/CaseStudies.tsx';
+import Comparison from './components/Comparison.tsx';
+import Team from './components/Team.tsx';
+import FAQ from './components/FAQ.tsx';
+import CTA from './components/CTA.tsx';
+import Footer from './components/Footer.tsx';
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
