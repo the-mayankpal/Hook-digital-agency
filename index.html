@@ -7,17 +7,20 @@
     <title>HOOK Agency | Premium Short-form Content & Growth Agency</title>
     <meta name="description" content="HOOK Agency helps brands scale on TikTok, Reels, and Shorts through elite content creation, management, and high-converting paid media strategies." />
     
-    <!-- DEFENSIVE: Global Process Shim -->
+    <!-- DEFENSIVE: Global Process Shim to prevent ReferenceErrors -->
     <script>
       window.process = { env: { API_KEY: "" } };
       window.addEventListener('error', function(e) {
-        if (!document.getElementById('root') || document.getElementById('root').innerHTML === "") {
-          const div = document.createElement('div');
-          div.id = 'emergency-error';
-          div.style.cssText = "position:fixed;top:0;left:0;width:100%;background:#fee2e2;color:#991b1b;padding:20px;z-index:9999;font-family:sans-serif;font-size:14px;border-bottom:2px solid #ef4444;";
-          div.innerHTML = "<strong>System Initialization Error:</strong> " + (e.message || "Unknown error") + "<br><small>Location: " + (e.filename || "unknown") + ":" + (e.lineno || "0") + "</small>";
-          if (!document.getElementById('emergency-error')) document.body.appendChild(div);
-        }
+        // If the app hasn't rendered within 2 seconds, or if there is a fatal error, show a message
+        setTimeout(() => {
+          const root = document.getElementById('root');
+          if (!root || root.innerHTML === "") {
+            const div = document.createElement('div');
+            div.style.cssText = "position:fixed;top:0;left:0;width:100%;background:#fff5f5;color:#c53030;padding:2rem;z-index:9999;font-family:sans-serif;border-bottom:4px solid #fc8181;";
+            div.innerHTML = "<h1 style='font-size:1.5rem;font-weight:bold;margin-bottom:0.5rem;'>App Failed to Initialize</h1><p>" + (e.message || "Unknown Script Error") + "</p><p style='font-size:0.8rem;margin-top:1rem;opacity:0.7;'>Check browser console for details.</p>";
+            if (!document.querySelector('div[style*="z-index: 9999"]')) document.body.appendChild(div);
+          }
+        }, 1000);
       });
     </script>
 
@@ -45,26 +48,6 @@
             fontFamily: {
               sans: ["Inter", "sans-serif"],
               display: ["Playfair Display", "serif"],
-            },
-            borderRadius: {
-              'xl': '1rem',
-              '2xl': '1.5rem',
-              '3xl': '2rem',
-            },
-            animation: {
-              'spin-slow': 'spin 8s linear infinite',
-              'marquee': 'marquee 30s linear infinite',
-              'pulse-soft': 'pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            },
-            keyframes: {
-              marquee: {
-                '0%': { transform: 'translateX(0%)' },
-                '100%': { transform: 'translateX(-50%)' },
-              },
-              'pulse-soft': {
-                '0%, 100%': { opacity: 1 },
-                '50%': { opacity: 0.7 },
-              }
             }
           },
         },
@@ -72,42 +55,18 @@
     </script>
     <style>
       .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
-      .glass-card {
-        background: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+      .scroll-reveal { transition: all 1s ease-out; }
+      .reveal-hidden { opacity: 0; transform: translateY(20px); }
+      .reveal-visible { opacity: 1; transform: translateY(0); }
+      .animate-marquee { animation: marquee 30s linear infinite; }
+      @keyframes marquee {
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-50%); }
       }
-      .dark .glass-card {
-        background: rgba(30, 30, 30, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-      }
-      .scroll-reveal {
-        transition: all 1s ease-out;
-      }
-      .reveal-hidden {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      .reveal-visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      .marquee-container { min-height: 80px; }
-      a:focus-visible, button:focus-visible {
-        outline: 2px solid #000;
-        outline-offset: 4px;
-      }
-      .dark a:focus-visible, .dark button:focus-visible {
-        outline: 2px solid #fff;
-      }
-      ::-webkit-scrollbar { width: 8px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { 
-        background: rgba(0,0,0,0.1); 
-        border-radius: 10px;
-      }
-      .dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+      .animate-spin-slow { animation: spin 8s linear infinite; }
+      @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
+
     <script type="importmap">
 {
   "imports": {
@@ -123,7 +82,7 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- CRITICAL: Explicitly import the entry point -->
+    <!-- CRITICAL: The entry point to start the app -->
     <script type="module" src="./index.tsx"></script>
   </body>
 </html>
