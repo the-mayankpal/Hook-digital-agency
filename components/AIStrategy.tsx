@@ -23,11 +23,11 @@ const AIStrategy: React.FC<AIStrategyProps> = ({ isOpen, onClose }) => {
     setResult([]);
 
     try {
-      // Robust check for API key to prevent crashes in non-configured environments
-      const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : null;
+      // Defensive check for the API key to prevent SDK crashes
+      const apiKey = process.env.API_KEY;
       
-      if (!apiKey) {
-        throw new Error("API configuration is currently unavailable for this preview. Please book a call for a personalized strategy.");
+      if (!apiKey || apiKey === "undefined" || apiKey === "") {
+        throw new Error("The AI model is currently initializing. Please book a call for an immediate manual strategy.");
       }
 
       const ai = new GoogleGenAI({ apiKey });
@@ -43,7 +43,7 @@ const AIStrategy: React.FC<AIStrategyProps> = ({ isOpen, onClose }) => {
       setResult(lines.length > 0 ? lines : [text]);
     } catch (err: any) {
       console.error("AI Generation failed:", err);
-      setError(err.message || "Failed to generate ideas. Our AI is currently scaling.");
+      setError(err.message || "Unable to reach the AI engine. Please try again or contact support.");
     } finally {
       setLoading(false);
     }
